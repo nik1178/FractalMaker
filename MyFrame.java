@@ -16,7 +16,7 @@ public class MyFrame extends JFrame implements MouseListener, MouseMotionListene
         this.setLayout(null);
         this.getContentPane().setBackground(new Color(20,20,20));
         this.setSize(800,800);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //sss
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
