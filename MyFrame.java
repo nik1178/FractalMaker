@@ -3,6 +3,8 @@ import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 public class MyFrame extends JFrame implements MouseListener, MouseMotionListener, KeyListener{
+    //Make program where you can create your own fractal then run the simulation which creates the final version
+    
     CreateCanvas canvas = new CreateCanvas();
     MyFrame(){
 
