@@ -2,17 +2,19 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
-public class MyFrame extends JFrame implements MouseListener, MouseMotionListener, KeyListener{
+public class MyFrame extends JFrame implements KeyListener{
     //Make program where you can create your own fractal then run the simulation which creates the final version
     
+    Point canvasLocation = new Point(50,50);
     CreateCanvas canvas = new CreateCanvas();
     MyFrame(){
 
         //CreateCanvas settings
-        canvas.setBounds(200,200,500,500);
+        canvas.setBounds(canvasLocation.x,canvasLocation.y,500,500);
 
         //Add components---------------------------------
         this.add(canvas);
+        this.addKeyListener(this);
 
         //JFrame settings--------------------------------
         this.setLayout(null);
@@ -24,46 +26,23 @@ public class MyFrame extends JFrame implements MouseListener, MouseMotionListene
         this.setVisible(true);
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
+    static boolean editMode = true;
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
-        
+        System.out.println(e.getKeyCode());
+        if(editMode && e.getKeyCode()>=48 && e.getKeyCode()<58){
+            //Numbers 1-9
+            ComponentMaker.selectedComponent = e.getKeyCode()-48;
+        } else if(e.getKeyCode()==10){
+            //Enter key, start the simulaton
+            reverseEditMode();
+        }
     }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
+    static void reverseEditMode(){
+        if(editMode) editMode = false;
+        else editMode = true;
     }
 
     @Override
@@ -74,12 +53,6 @@ public class MyFrame extends JFrame implements MouseListener, MouseMotionListene
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
         
     }
