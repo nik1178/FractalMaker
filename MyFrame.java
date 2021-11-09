@@ -40,9 +40,14 @@ public class MyFrame extends JFrame implements KeyListener{
             reverseEditMode();
         }
     }
-    static void reverseEditMode(){
-        if(editMode) editMode = false;
-        else editMode = true;
+    void reverseEditMode(){
+        if(editMode) {
+            editMode = false;
+        }
+        else {
+            editMode = true;
+            canvas.timer.start();
+        }
     }
 
     @Override

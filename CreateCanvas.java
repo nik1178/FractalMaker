@@ -4,19 +4,18 @@ import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-public class CreateCanvas extends JPanel implements MouseListener, ActionListener {
+public class CreateCanvas extends JPanel implements MouseListener {
     int fps = 1000/60;
+    Timer timer;
     CreateCanvas(){
         this.setBackground(Color.black);
         this.addMouseListener(this);
-        Timer timer = new Timer(fps, this);
-        timer.start();
-    }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        repaint();
+
+        timer = new Timer(fps, e -> {
+            repaint();
+        });
+        timer.start();
     }
 
     ComponentMaker maker = new ComponentMaker();
@@ -25,7 +24,7 @@ public class CreateCanvas extends JPanel implements MouseListener, ActionListene
         super.paint(g);
         Graphics2D gtd = (Graphics2D) g;
         
-        for(FractalComponent fc : maker.components){
+        /* for(FractalComponent fc : maker.components){
             COMPONENTNAMES cn = COMPONENTNAMES.valueOf(fc.getClass().getSimpleName());
             switch(cn){
                 case OriginPoint:
@@ -38,6 +37,23 @@ public class CreateCanvas extends JPanel implements MouseListener, ActionListene
                     drawContinuationPoint(fc, gtd);
                     break;
             }
+        } */
+
+        if(maker.howManyComponents<1) return;
+        if(MyFrame.editMode){
+            drawEditLayout(gtd);
+        } else {
+            FractalAlgorithm fa = new FractalAlgorithm(gtd);
+            fa.drawCreatedFractal(maker);
+        }
+    }
+    void drawEditLayout(Graphics2D gtd){
+        drawOriginPoint(maker.originPoint, gtd);
+        for(int i=0; i<maker.fractalLines.size(); i++){
+            drawFractalLine(maker.fractalLines.get(i), gtd);
+        }
+        for(int i=0; i<maker.continuationPoints.size(); i++){
+            drawContinuationPoint(maker.continuationPoints.get(i), gtd);
         }
     }
 
