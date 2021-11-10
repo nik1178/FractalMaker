@@ -4,7 +4,7 @@ import java.awt.geom.*;
 import org.w3c.dom.css.Rect;
 public class FractalAlgorithm {
 
-    final int counterLimit = 2;
+    final int counterLimit = 10;
 
     Graphics2D gtd;
     FractalAlgorithm(Graphics2D gtd) {
@@ -19,7 +19,7 @@ public class FractalAlgorithm {
         this.startCoordinates = start;
         //gtd.translate(start.x, start.y);
         findFurthestPoints(maker);
-        algorithm(start.x, start.y, 0, maxLength);
+        algorithm(start.x, start.y, 0, maxLength, 0);
     }
     int maxLength = 0;
     void findFurthestPoints(ComponentMaker maker){
@@ -36,13 +36,12 @@ public class FractalAlgorithm {
             }
         }
     }
-    double cpangle = 0;
-    void algorithm(int x, int y, int counter, double SizeDivider){
-        if(counter>counterLimit) return;
+    void algorithm(int x, int y, int counter, double SizeDivider, double cpangle){
 
         gtd.translate(x,y);
         gtd.rotate(cpangle);
 
+        if(counter>counterLimit) return;
 
         AffineTransform at = gtd.getTransform();
         int translateX = (int)at.getTranslateX();
@@ -51,13 +50,6 @@ public class FractalAlgorithm {
         gtd.setPaint(Color.white);
         for(int i=0; i<maker.fractalLines.size(); i++){
             FractalLine fl = maker.fractalLines.get(i);
-            if(counter==0){
-                gtd.setPaint(Color.white);
-            } else if(counter==1){
-                gtd.setPaint(Color.red);
-            } else if(counter==2){
-                gtd.setPaint(Color.blue);
-            }
             int x1 = fl.x1-(int)startCoordinates.getX();
             int y1 = fl.y1-(int)startCoordinates.getY();
             int x2 = fl.x2-(int)startCoordinates.getX();
@@ -75,14 +67,9 @@ public class FractalAlgorithm {
             ContinuationPoint cp = maker.continuationPoints.get(i);
             int cplength = (int)Math.round(Math.sqrt( (cp.x2 - cp.x1)*(cp.x2 - cp.x1) + (cp.y2 - cp.y1)*(cp.y2 - cp.y1)));
             cpangle = angleBetween2Lines(cp.x1,cp.y1,cp.x2,cp.y2);
-            if(counter==2){
-                for(int j=0; j<100; j++){
-                    gtd.rotate(1);
-                }
-            }
-            algorithm(cp.x1-(int)startCoordinates.getX(),cp.y1-(int)startCoordinates.getY(), counter+1,cplength);
-            gtd.translate(-cp.x1-(int)startCoordinates.getX(),-cp.y1-(int)startCoordinates.getY());
-            //gtd.rotate(-cpangle);
+            algorithm(cp.x1-(int)startCoordinates.getX(),cp.y1-(int)startCoordinates.getY(), counter+1,cplength, cpangle);
+            gtd.rotate(-cpangle);
+            gtd.translate(-cp.x1+(int)startCoordinates.getX(),-cp.y1+(int)startCoordinates.getY());
         }
         
     }
