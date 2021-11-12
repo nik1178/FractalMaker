@@ -4,7 +4,7 @@ import java.awt.geom.*;
 import org.w3c.dom.css.Rect;
 public class FractalAlgorithm {
 
-    final int counterLimit = 10;
+    final int counterLimit = 4;
 
     Graphics2D gtd;
     FractalAlgorithm(Graphics2D gtd) {
@@ -38,7 +38,15 @@ public class FractalAlgorithm {
     }
     void algorithm(int x, int y, int counter, double SizeDivider, double cpangle){
 
-        gtd.translate(x,y);
+        double divideAmount = Math.pow(maxLength/SizeDivider, counter);
+        double translationDivideAmount = Math.pow(maxLength/SizeDivider, counter-1);
+        int translationX = x;
+        int translationY = y;
+        if(counter>0){
+            translationX = (int)(x/translationDivideAmount);
+            translationY = (int)(y/translationDivideAmount);
+        }
+        gtd.translate(translationX,translationY);
         gtd.rotate(cpangle);
 
         if(counter>counterLimit) return;
@@ -55,21 +63,24 @@ public class FractalAlgorithm {
             int x2 = fl.x2-(int)startCoordinates.getX();
             int y2 = fl.y2-(int)startCoordinates.getY();
                 
-            /* if(counter>0){
-                x1/=maxLength/SizeDivider/counter;
-                y1/=maxLength/SizeDivider/counter;
-                x2/=maxLength/SizeDivider/counter;
-                y2/=maxLength/SizeDivider/counter;
-            } */
+            x1/=divideAmount;
+            y1/=divideAmount;
+            x2/=divideAmount;
+            y2/=divideAmount;
             gtd.drawLine(x1, y1, x2, y2);
         }
         for(int i=0; i<maker.continuationPoints.size(); i++){
             ContinuationPoint cp = maker.continuationPoints.get(i);
             int cplength = (int)Math.round(Math.sqrt( (cp.x2 - cp.x1)*(cp.x2 - cp.x1) + (cp.y2 - cp.y1)*(cp.y2 - cp.y1)));
             cpangle = angleBetween2Lines(cp.x1,cp.y1,cp.x2,cp.y2);
-            algorithm(cp.x1-(int)startCoordinates.getX(),cp.y1-(int)startCoordinates.getY(), counter+1,cplength, cpangle);
+            int sentX = cp.x1-(int)startCoordinates.getX();
+            int sentY = cp.y1-(int)startCoordinates.getY();
+
+            algorithm(sentX,sentY, counter+1,cplength, cpangle);
+
             gtd.rotate(-cpangle);
-            gtd.translate(-cp.x1+(int)startCoordinates.getX(),-cp.y1+(int)startCoordinates.getY());
+            divideAmount = Math.pow(maxLength/(double)cplength, counter);
+            gtd.translate(-(int)(sentX/divideAmount),-(int)(sentY/divideAmount));
         }
         
     }

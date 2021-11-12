@@ -23,6 +23,7 @@ public class CreateCanvas extends JPanel implements MouseListener {
     public void paint(Graphics g){
         super.paint(g);
         Graphics2D gtd = (Graphics2D) g;
+        gtd.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
         /* for(FractalComponent fc : maker.components){
             COMPONENTNAMES cn = COMPONENTNAMES.valueOf(fc.getClass().getSimpleName());

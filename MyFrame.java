@@ -32,7 +32,7 @@ public class MyFrame extends JFrame implements KeyListener{
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
         System.out.println(e.getKeyCode());
-        if(editMode && e.getKeyCode()>=48 && e.getKeyCode()<58){
+        if(e.getKeyCode()>=48 && e.getKeyCode()<58){
             //Numbers 1-9
             ComponentMaker.selectedComponent = e.getKeyCode()-48;
         } else if(e.getKeyCode()==10){
