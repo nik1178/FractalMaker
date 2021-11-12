@@ -17,6 +17,13 @@ public class FractalComponent{
         return new Point(x2,y2);
     }
 }
+class Empty extends FractalComponent{
+    //This is the point from which we spawned the original shape. It is the starting ground for any other shapes drawn in the
+    //Say we want to draw a fractal tree. The origin point would be at the bottom of the screen, a line drawn on top, then 2 continuation points from the top of the line
+    Empty(int x1, int y1){
+        super(x1,y1,0,0);
+    }
+}
 class OriginPoint extends FractalComponent{
     //This is the point from which we spawned the original shape. It is the starting ground for any other shapes drawn in the
     //Say we want to draw a fractal tree. The origin point would be at the bottom of the screen, a line drawn on top, then 2 continuation points from the top of the line

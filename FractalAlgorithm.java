@@ -1,10 +1,9 @@
 import java.awt.*;
 import java.awt.geom.*;
 
-import org.w3c.dom.css.Rect;
 public class FractalAlgorithm {
 
-    final int counterLimit = 4;
+    final int counterLimit = 14;
 
     Graphics2D gtd;
     FractalAlgorithm(Graphics2D gtd) {
@@ -36,24 +35,19 @@ public class FractalAlgorithm {
             }
         }
     }
-    void algorithm(int x, int y, int counter, double SizeDivider, double cpangle){
+    void algorithm(double x, double y, int counter, double sizeDivider, double cpangle){
 
-        double divideAmount = Math.pow(maxLength/SizeDivider, counter);
-        double translationDivideAmount = Math.pow(maxLength/SizeDivider, counter-1);
-        int translationX = x;
-        int translationY = y;
-        if(counter>0){
-            translationX = (int)(x/translationDivideAmount);
-            translationY = (int)(y/translationDivideAmount);
-        }
+        double divideAmount = Math.pow(maxLength/sizeDivider, counter);
+        double translationX = x;
+        double translationY = y;
         gtd.translate(translationX,translationY);
         gtd.rotate(cpangle);
 
-        if(counter>counterLimit) return;
+        if(counter>counterLimit || sizeDivider>maxLength) return;
 
-        AffineTransform at = gtd.getTransform();
+        /* AffineTransform at = gtd.getTransform();
         int translateX = (int)at.getTranslateX();
-        int translateY = (int)at.getTranslateY();
+        int translateY = (int)at.getTranslateY(); */
 
         gtd.setPaint(Color.white);
         for(int i=0; i<maker.fractalLines.size(); i++){
@@ -75,12 +69,15 @@ public class FractalAlgorithm {
             cpangle = angleBetween2Lines(cp.x1,cp.y1,cp.x2,cp.y2);
             int sentX = cp.x1-(int)startCoordinates.getX();
             int sentY = cp.y1-(int)startCoordinates.getY();
+            double translationDivideAmount = Math.pow(maxLength/sizeDivider, counter);
+            translationX = (sentX/translationDivideAmount);
+            translationY = (sentY/translationDivideAmount);
 
-            algorithm(sentX,sentY, counter+1,cplength, cpangle);
+            algorithm(translationX,translationY, counter+1,cplength, cpangle);
 
             gtd.rotate(-cpangle);
-            divideAmount = Math.pow(maxLength/(double)cplength, counter);
-            gtd.translate(-(int)(sentX/divideAmount),-(int)(sentY/divideAmount));
+            //divideAmount = Math.pow(maxLength/(double)cplength, counter);
+            gtd.translate(-translationX,-translationY);
         }
         
     }

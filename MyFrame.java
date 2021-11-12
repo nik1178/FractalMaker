@@ -46,8 +46,9 @@ public class MyFrame extends JFrame implements KeyListener{
         }
         else {
             editMode = true;
-            canvas.timer.start();
+            //canvas.timer.start();
         }
+        canvas.repaint();
     }
 
     @Override

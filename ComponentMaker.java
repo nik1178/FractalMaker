@@ -1,8 +1,8 @@
 import java.util.*;
 public class ComponentMaker{
     //All the origin points, lines, continuation points...
-    static int selectedComponent = 0;
-    static int currentComponent = 0;
+    static int selectedComponent = 0; //Tells us what component the user is trying to draw
+    static int currentComponent = 0; //Tells us the num of the last component in the component list(Which currently doesn't exist)
     int howManyComponents = 0;
     //ArrayList<FractalComponent> components = new ArrayList<>();
     OriginPoint originPoint;
