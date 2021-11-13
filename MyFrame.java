@@ -2,24 +2,30 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
-public class MyFrame extends JFrame implements KeyListener{
+public class MyFrame extends JFrame implements KeyListener, ChangeListener{
     //Make program where you can create your own fractal then run the simulation which creates the final version
     
-    Point canvasLocation = new Point(50,50);
+    final int WINDOWS_WIDTH = 800;
+    final Point CANVASLOCATION = new Point(10,30);
+    final Point COUNTERSLIDERLOCATION = new Point(10,10);
     CreateCanvas canvas = new CreateCanvas();
+    CounterLimitSlider counterSlider = new CounterLimitSlider();
     MyFrame(){
 
         //CreateCanvas settings
-        canvas.setBounds(canvasLocation.x,canvasLocation.y,500,500);
+        canvas.setBounds(CANVASLOCATION.x,CANVASLOCATION.y,WINDOWS_WIDTH,WINDOWS_WIDTH);
+        counterSlider.setBounds(COUNTERSLIDERLOCATION.x, COUNTERSLIDERLOCATION.y, WINDOWS_WIDTH, COUNTERSLIDERLOCATION.y);
 
         //Add components---------------------------------
+        this.add(counterSlider);
         this.add(canvas);
         this.addKeyListener(this);
+        counterSlider.addChangeListener(this);
 
         //JFrame settings--------------------------------
         this.setLayout(null);
         this.getContentPane().setBackground(new Color(20,20,20));
-        this.setSize(800,800);
+        this.setSize(WINDOWS_WIDTH + 40,WINDOWS_WIDTH + 80);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //sss
         this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -39,6 +45,7 @@ public class MyFrame extends JFrame implements KeyListener{
             //Enter key, start the simulaton
             reverseEditMode();
         }
+        if(editMode) canvas.repaint();
     }
     void reverseEditMode(){
         if(editMode) {
@@ -48,6 +55,15 @@ public class MyFrame extends JFrame implements KeyListener{
             editMode = true;
             //canvas.timer.start();
         }
+        canvas.repaint();
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        // TODO Auto-generated method stub
+        counterSlider.counterLimit = counterSlider.getValue();
+        System.out.println(counterSlider.counterLimit);
+        FractalAlgorithm.counterLimit = counterSlider.counterLimit;
         canvas.repaint();
     }
 

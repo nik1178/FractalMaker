@@ -3,7 +3,7 @@ import java.awt.geom.*;
 
 public class FractalAlgorithm {
 
-    final int counterLimit = 14;
+    static int counterLimit = 14;
 
     Graphics2D gtd;
     FractalAlgorithm(Graphics2D gtd) {
