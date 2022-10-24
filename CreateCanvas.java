@@ -137,8 +137,15 @@ public class CreateCanvas extends JPanel implements MouseListener, MouseMotionLi
         int mouseEndY = e.getY();
         mouseX = mouseEndX;
         mouseY = mouseEndY;
-        maker.addComponent(mouseStartX, mouseStartY, mouseEndX, mouseEndY);
-        ComponentMaker.currentComponent++;
+        if(ComponentMaker.currentComponent==0){
+            if(ComponentMaker.selectedComponent==1){
+                maker.addComponent(mouseStartX, mouseStartY, mouseEndX, mouseEndY);
+                ComponentMaker.currentComponent++;
+            }
+        }else{
+            maker.addComponent(mouseStartX, mouseStartY, mouseEndX, mouseEndY);
+            ComponentMaker.currentComponent++;
+        }
         repaint();
     }
 

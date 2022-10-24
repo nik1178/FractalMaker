@@ -28,7 +28,7 @@ public class ComponentMaker{
             
         }
         howManyComponents++;
-        System.out.println("Test");
+        //System.out.println("Test");
     }
 
 }
