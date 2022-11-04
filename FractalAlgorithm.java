@@ -13,6 +13,7 @@ public class FractalAlgorithm {
     
     Point startCoordinates;
     ComponentMaker maker;
+    long fullTime = 0;
     void drawCreatedFractal(ComponentMaker maker){
         this.maker = maker;
         Point start = maker.originPoint.returnStartPoint();
@@ -20,8 +21,11 @@ public class FractalAlgorithm {
         //gtd.translate(start.x, start.y);
         findFurthestPoints(maker);
         gtd.setPaint(Color.white);
+        long startTime = System.nanoTime();
         algorithm(start.x, start.y, 0, maxLength, 0);
+        System.out.println("FullTime: " + (System.nanoTime()-startTime) + " drawTime: " + fullTime + " percent: " + ((double)fullTime/(System.nanoTime()-startTime)));
     }
+
     int maxLength = 0;
     void findFurthestPoints(ComponentMaker maker){
         //Finds the point that's furthest from the origin point, so that it can then take into account the length of the continuation point and make a size multiplier
@@ -51,6 +55,7 @@ public class FractalAlgorithm {
 
         if(counter>counterLimit /* || sizeDivider-5>maxLength */) return;
         for(int i=0; i<maker.fractalLines.size(); i++){
+            //Coordinates relative to the starting point
             FractalLine fl = maker.fractalLines.get(i);
             int x1 = fl.x1-(int)startCoordinates.getX();
             int y1 = fl.y1-(int)startCoordinates.getY();
@@ -61,21 +66,35 @@ public class FractalAlgorithm {
             y1/=divideAmount;
             x2/=divideAmount;
             y2/=divideAmount;
-            if((int)Math.round(Math.sqrt( (x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1)))<1){
+            /* if((int)Math.round(Math.sqrt( (x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1)))<1){
                 returnStreak++;
                 if(returnStreak>5){
-                    returnStreak--;return;
+                    returnStreak--;
+                    return;
                 }
-            } else returnStreak=0;
-            gtd.drawLine(x1, y1, x2, y2);
+            } else returnStreak=0; */
+            if(x1==x2 && y1==y2){
+                returnStreak++;
+                if(returnStreak>5){
+                    returnStreak--;
+                    return;
+                }
+            } else {
+                returnStreak=0;
+            }
+            long startTime = System.nanoTime();
+            gtd.drawLine(x1, y1, x2, y2); //Outside of else, so that it draws points as well
+            fullTime += System.nanoTime()-startTime;
         }
+
         for(int i=0; i<maker.continuationPoints.size(); i++){
             ContinuationPoint cp = maker.continuationPoints.get(i);
             int cplength = (int)Math.round(Math.sqrt( (cp.x2 - cp.x1)*(cp.x2 - cp.x1) + (cp.y2 - cp.y1)*(cp.y2 - cp.y1)));
             cpangle = angleBetween2Lines(cp.x1,cp.y1,cp.x2,cp.y2);
             int sentX = cp.x1-(int)startCoordinates.getX();
             int sentY = cp.y1-(int)startCoordinates.getY();
-            double translationDivideAmount = Math.pow(maxLength/sizeDivider, counter);
+            //double translationDivideAmount = Math.pow(maxLength/sizeDivider, counter);
+            double translationDivideAmount = divideAmount;
             translationX = (sentX/translationDivideAmount);
             translationY = (sentY/translationDivideAmount);
 
@@ -102,6 +121,8 @@ public class FractalAlgorithm {
         }
         
     }
+
+
     public static double angleBetween2Lines(int x1, int y1, int x2, int y2) {
         //Find angle in radians
         double angle1 = Math.atan2(y1-y2,x1-x2);
