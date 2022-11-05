@@ -4,9 +4,13 @@ The whole program is your canvas.
 
 ### Controls (keyboard + left click)
 On keyboard press:
+
 1 - Add origin point, the place from where the drawn shape will be duplicated. There can be only 1 of these points. It must be the first thing you've drawn. It can be moved.
+
 2 - (Drag and release) Draw a line. This is going to be your shape. You can draw any shape you wish to
+
 3 - (Drag and release) Duplication point. The point where you first click dictates the place from where the shape will be drawn again. The length and rotation of the line dictate the size and rotation.
+
 
 Once you've drawn all you wish to, press SPACE and render out your created shape.
 
