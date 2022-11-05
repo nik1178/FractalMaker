@@ -12,7 +12,7 @@ On keyboard press:
 3 - (Drag and release) Duplication point. The point where you first click dictates the place from where the shape will be drawn again. The length and rotation of the line dictate the size and rotation.
 
 
-Once you've drawn all you wish to, press SPACE and render out your created shape.
+ENTER - Once you've drawn all you wish to, press ENTER and render out your created shape.
 
 On top, you can control the depth of the fractal, how many times the whole thing will be duplicated for each duplication point.
 This is an unoptimized, single threaded program, so it may take a while for everything to render, if the number is large, or if you use too many duplication points.
