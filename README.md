@@ -14,3 +14,7 @@ On top, you can control the depth of the fractal, how many times the whole thing
 This is an unoptimized, single threaded program, so it may take a while for everything to render, if the number is large, or if you use too many duplication points.
 
 It is recommended to start with just 2 duplication points, making a simple fractal tree, to test the program out, leaving the depth slider on the default value, as more points and more depth will dramatically increase the lag.
+
+#Examples:
+
+![Example1](media/fractal1.png)

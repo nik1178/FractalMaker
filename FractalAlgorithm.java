@@ -83,7 +83,7 @@ public class FractalAlgorithm {
                 returnStreak=0;
             }
             long startTime = System.nanoTime();
-            gtd.drawLine(x1, y1, x2, y2); //Outside of else, so that it draws points as well
+            gtd.drawLine(x1, y1, x2, y2); //Outside of else, so that it draws points as well. Most of the lag is from drawing, so can't make major optimizations. Multithread?
             fullTime += System.nanoTime()-startTime;
         }
 
