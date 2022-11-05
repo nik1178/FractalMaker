@@ -18,3 +18,5 @@ It is recommended to start with just 2 duplication points, making a simple fract
 #Examples:
 
 ![Example1](media/fractal1.png)
+
+What
